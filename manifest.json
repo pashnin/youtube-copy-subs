@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "Копировать субтитры YouTube",
+    "description": "Кнопка в плеере YouTube: копирует текст субтитров без таймкодов.",
+    "version": "1.0.0",
+    "minimum_chrome_version": "116",
+    "permissions": ["offscreen", "clipboardWrite"],
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "icons": {
+        "16": "icons/16.png",
+        "32": "icons/32.png",
+        "48": "icons/48.png",
+        "128": "icons/128.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://www.youtube.com/*"],
+            "js": ["src/parse-subs.js", "src/page-hooks.js"],
+            "run_at": "document_start",
+            "world": "MAIN"
+        },
+        {
+            "matches": ["*://www.youtube.com/*"],
+            "js": ["src/parse-subs.js", "src/content.js"],
+            "css": ["src/content.css"],
+            "run_at": "document_idle"
+        }
+    ]
+}
